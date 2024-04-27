@@ -1,0 +1,17 @@
+{
+    "products":[
+        {
+            "_id": "djasjodoajda",
+            "prodType": "Pet",
+            "prodName": "Casa de Pet",
+            "prodDescription": "asjdjajd",
+            "prodGender": "Macho",
+            "prodBrand": "Casinhasdsakd",
+            "quality": "Bom",
+            "price": 199,
+            "postDate": "2024-04-21T21:21:21.3414",
+            "_v":0
+        }
+    ]
+
+}
