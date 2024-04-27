@@ -86,7 +86,7 @@ const PostForm: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="prodType" className="block">
-                Product Type:
+                Tipo:
               </label>
               <input
                 type="text"
@@ -98,7 +98,7 @@ const PostForm: React.FC = () => {
             </div>
             <div>
               <label htmlFor="prodName" className="block">
-                Product Name:
+                Nome:{" "}
               </label>
               <input
                 type="text"
@@ -110,7 +110,7 @@ const PostForm: React.FC = () => {
             </div>
             <div>
               <label htmlFor="prodDescription" className="block">
-                Product Description:
+                Descrição:
               </label>
               <input
                 type="text"
@@ -122,7 +122,7 @@ const PostForm: React.FC = () => {
             </div>
             <div>
               <label htmlFor="prodGender" className="block">
-                Product Gender:
+                Gênero:
               </label>
               <input
                 type="text"
@@ -134,7 +134,7 @@ const PostForm: React.FC = () => {
             </div>
             <div>
               <label htmlFor="prodBrand" className="block">
-                Product Brand:
+              Marca:
               </label>
               <input
                 type="text"
@@ -146,7 +146,7 @@ const PostForm: React.FC = () => {
             </div>
             <div>
               <label htmlFor="quality" className="block">
-                Quality:
+                Qualidade:
               </label>
               <input
                 type="text"
@@ -158,7 +158,7 @@ const PostForm: React.FC = () => {
             </div>
             <div>
               <label htmlFor="price" className="block">
-                Price:
+                Preço:
               </label>
               <input
                 type="number"
@@ -172,7 +172,7 @@ const PostForm: React.FC = () => {
               type="submit"
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
             >
-              Submit
+              Enviar
             </button>
           </form>
         </div>
