@@ -88,13 +88,17 @@ const PostForm: React.FC = () => {
               <label htmlFor="prodType" className="block">
                 Tipo:
               </label>
-              <input
-                type="text"
+              <select
                 id="prodType"
                 name="prodType"
                 onChange={handleInputChange}
                 className="border p-2 rounded"
-              />
+              >
+                <option value="">Selecione o tipo</option>
+                <option value="opcao1">Pet</option>
+                <option value="opcao2">Roupas</option>
+                <option value="opcao3">Outros</option>
+              </select>
             </div>
             <div>
               <label htmlFor="prodName" className="block">
@@ -134,7 +138,7 @@ const PostForm: React.FC = () => {
             </div>
             <div>
               <label htmlFor="prodBrand" className="block">
-              Marca:
+                Marca:
               </label>
               <input
                 type="text"
