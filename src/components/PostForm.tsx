@@ -58,7 +58,12 @@ const PostForm: React.FC = () => {
   };
 
   // Function to handle form input changes
-  const handleInputChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleInputChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -91,7 +96,7 @@ const PostForm: React.FC = () => {
               <select
                 id="prodType"
                 name="prodType"
-                onChange={handleInputChange}
+                onChange={handleInputChangeSelect}
                 className="border p-2 rounded"
               >
                 <option value="">Selecione o tipo</option>
