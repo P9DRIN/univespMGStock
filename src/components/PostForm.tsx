@@ -171,7 +171,7 @@ export function PostForm()  {
             </div>
             <div>
               <label htmlFor="prodBrand" className="block">
-              Marca:
+                Marca:
               </label>
               <input
               required
