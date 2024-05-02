@@ -1,5 +1,9 @@
-import React, { useState } from "react";
+import  { useContext, useState } from "react";
 import Modal from "react-modal";
+import { Controller, useForm } from 'react-hook-form'
+import * as z from 'zod'
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ProductsContext } from "@/contexts/ProductsContext";
 
 const customStyles = {
   content: {
@@ -16,52 +20,68 @@ const customStyles = {
   },
 };
 
-const PostForm: React.FC = () => {
-  // State for form data
-  const [formData, setFormData] = useState({
-    prodType: "",
-    prodName: "",
-    prodDescription: "",
-    prodGender: "",
-    prodBrand: "",
-    quality: "",
-    price: 0,
+  const newProductSchema = z.object({
+    prodType: z.enum(["clothing", "shoes", "pet"]) ,
+    prodName: z.string(),
+    prodDescription: z.string(),
+    prodGender: z.enum(["male", "female", "none"]),
+    prodBrand: z.string(),
+    quality: z.enum(["new", "used", "damaged"]),
+    price: z.string(),
   });
+
+  type NewProductInput = z.infer<typeof newProductSchema>;
+ 
+export function PostForm()  {
+
+  const { CreateProduct } = useContext(ProductsContext)
+
+  const {
+    control,
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+    reset,
+
+  } = useForm<NewProductInput>({
+    resolver: zodResolver(newProductSchema),
+  })
+  enum ProductType {
+    clothing = "Roupas",
+    shoes = "Sapatos",
+    pet =  "Itens de pet"
+  }
+  enum ProductGender {
+    male = "Masculino",
+    female = "Feminino",
+    none = "Nenhum ou N/A"
+  }
+  enum ProductQuality {
+    new = "Novo",
+    used = "Usado",
+    damaged = "Usado, com detalhes"
+  }
+
   // State for modal visibility
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   // Function to handle form submission
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      // Make API call to post form data
-      const response = await fetch("API_ENDPOINT_URL", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      // Handle response
-      if (response.ok) {
-        // Handle successful submission
-        console.log("Form submitted successfully!");
-        // Close modal after successful submission
-        setModalIsOpen(false);
-      } else {
-        // Handle error
-        console.error("Error submitting form:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    }
-  };
+  async function handleCreateProduct(data: NewProductInput) {
+    const { prodType, prodName, prodDescription, prodGender, prodBrand, quality, price } = data
+      CreateProduct({
+        prodType: prodType,
+        prodName: prodName,
+        prodDescription: prodDescription,
+        prodGender: prodGender,
+        prodBrand: prodBrand,
+        quality: quality,
+        price: Number(price)
+      
+      })
 
-  // Function to handle form input changes
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+      reset()
+      setModalIsOpen(false)
+  }
 
   return (
     <>
@@ -72,6 +92,7 @@ const PostForm: React.FC = () => {
         Novo
       </button>
       <Modal
+        ariaHideApp={false}
         isOpen={modalIsOpen}
         onRequestClose={() => setModalIsOpen(false)}
         style={customStyles}
@@ -79,33 +100,42 @@ const PostForm: React.FC = () => {
         <div className="p-4">
           <button
             onClick={() => setModalIsOpen(false)}
-            className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full hover:bg-red-600"
+            className="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 rounded-full hover:bg-red-600"
           >
             X
           </button>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form action="" onSubmit={handleSubmit(handleCreateProduct)} className="space-y-4">
             <div>
               <label htmlFor="prodType" className="block">
                 Tipo:
               </label>
-              <input
-                type="text"
-                id="prodType"
-                name="prodType"
-                onChange={handleInputChange}
-                className="border p-2 rounded"
-              />
+              <Controller
+
+              control={control}
+              name="prodType"
+              render={({ field }) => (
+              <select {...field} id="prodType" className="border p-2 rounded">
+              <option value="">Select...</option>
+              {Object.entries(ProductType).map(([value, label]) => (
+              <option key={value} value={value}>
+              {label}
+            </option>
+            ))}
+            </select>
+             )}
+            />    
+               
             </div>
             <div>
               <label htmlFor="prodName" className="block">
                 Nome:{" "}
               </label>
               <input
+                required
                 type="text"
                 id="prodName"
-                name="prodName"
-                onChange={handleInputChange}
                 className="border p-2 rounded"
+                {...register('prodName')}
               />
             </div>
             <div>
@@ -113,63 +143,78 @@ const PostForm: React.FC = () => {
                 Descrição:
               </label>
               <input
+              required
                 type="text"
                 id="prodDescription"
-                name="prodDescription"
-                onChange={handleInputChange}
                 className="border p-2 rounded"
+                {...register('prodDescription')}
               />
             </div>
             <div>
               <label htmlFor="prodGender" className="block">
                 Gênero:
               </label>
-              <input
-                type="text"
-                id="prodGender"
-                name="prodGender"
-                onChange={handleInputChange}
-                className="border p-2 rounded"
-              />
+              <Controller
+              control={control}
+              name="prodGender"
+              render={({ field }) => (
+              <select {...field} id="prodGender" className="border p-2 rounded">
+              <option value="">Select...</option>
+              {Object.entries(ProductGender).map(([value, label]) => (
+              <option key={value} value={value}>
+              {label}
+            </option>
+            ))}
+            </select>
+             )}
+            />  
             </div>
             <div>
               <label htmlFor="prodBrand" className="block">
               Marca:
               </label>
               <input
+              required
                 type="text"
                 id="prodBrand"
-                name="prodBrand"
-                onChange={handleInputChange}
                 className="border p-2 rounded"
+                {...register('prodBrand')}
               />
             </div>
             <div>
               <label htmlFor="quality" className="block">
                 Qualidade:
               </label>
-              <input
-                type="text"
-                id="quality"
-                name="quality"
-                onChange={handleInputChange}
-                className="border p-2 rounded"
-              />
+              <Controller
+              control={control}
+              name="quality"
+              render={({ field }) => (
+              <select {...field} id="quality" className="border p-2 rounded">
+              <option value="">Select...</option>
+              {Object.entries(ProductQuality).map(([value, label]) => (
+              <option key={value} value={value}>
+              {label}
+            </option>
+            ))}
+            </select>
+             )}
+            />  
             </div>
             <div>
-              <label htmlFor="price" className="block">
+              <label className="block">
                 Preço:
               </label>
               <input
+                required
+                minLength={1}
                 type="number"
-                id="price"
-                name="price"
-                onChange={handleInputChange}
                 className="border p-2 rounded"
+                {...register('price')}
               />
             </div>
             <button
               type="submit"
+              disabled={isSubmitting}
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
             >
               Enviar
@@ -179,6 +224,5 @@ const PostForm: React.FC = () => {
       </Modal>
     </>
   );
-};
+}
 
-export default PostForm;

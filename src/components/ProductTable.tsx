@@ -1,53 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import PostForm from './PostForm';
+import React, { useContext, useState } from 'react';
+import { PostForm } from './PostForm';
+import { ProductsContext } from '@/contexts/ProductsContext'
+import { Product } from '@/@types/product';
+import { priceFormatter } from '@/utils/priceFormatter';
 
-interface Product {
-  _id: string;
-  prodType: string;
-  prodName: string;
-  prodDescription: string;
-  prodGender: string;
-  prodBrand: string;
-  quality: string;
-  price: number;
-  postDate: string;
-  _v: number;
-}
 
-const ProductTable: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+export function ProductTable(){
+
+  const { products } = useContext(ProductsContext);
+  
   const [filterField, setFilterField] = useState('');
   const [filterValue, setFilterValue] = useState('');
   const [filterValues, setFilterValues] = useState({
-    prodType: '',
     prodName: '',
-    prodDescription: '',
-    prodGender: '',
-    prodBrand: '',
-    quality: '',
-    price: '',
-    postDate: '',
-    _v: '',
   });
 
-  useEffect(() => {
-    // Buscar dados da API
-    const fetchData = async () => {
-      try {
-        const response = await fetch('API_ENDPOINT_URL');
-        if (response.ok) {
-          const data = await response.json();
-          setProducts(data);
-        } else {
-          console.error('Falha ao buscar dados');
-        }
-      } catch (error) {
-        console.error('Erro ao buscar dados:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const fieldNames = {
+    prodName: 'Nome do produto',
+    prodGender: "Genero do produto",
+    prodBrand: "Marca do produto",
+  }
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedField = e.target.value;
@@ -82,12 +54,11 @@ const ProductTable: React.FC = () => {
           onChange={handleFilterChange}
           className="border rounded px-2 h-10 m-4 py-1"
         >
-          <option value="">Selecione o Campo</option>
-          {Object.keys(filterValues).map((key) => (
-            <option key={key} value={key}>
-              {key}
-            </option>
-          ))}
+          {Object.keys(fieldNames).map((field) => (
+          <option key={field} value={field}>
+            {fieldNames[field as keyof typeof fieldNames]}
+          </option>
+        ))}
         </select>
         <input
           type="text"
@@ -115,28 +86,29 @@ const ProductTable: React.FC = () => {
             <th className="border px-4 py-2">Qualidade</th>
             <th className="border px-4 py-2">Preço</th>
             <th className="border px-4 py-2">Data de Postagem</th>
-            <th className="border px-4 py-2">Versão</th>
           </tr>
         </thead>
-        <tbody>
-          {filteredProducts.map((product) => (
+                <tbody>
+          {filteredProducts.sort((a, b) => {
+            const dateA = a.postDate ? new Date(a.postDate) : null;
+            const dateB = b.postDate ? new Date(b.postDate) : null;
+            return (dateB?.getTime() ?? 0) - (dateA?.getTime() ?? 0);
+          }).map((product) => (
             <tr key={product._id} className="bg-gray-100">
               <td className="border px-4 py-2">{product._id}</td>
-              <td className="border px-4 py-2">{product.prodType}</td>
+              <td className="border px-4 py-2">{product.prodType && product.prodType === "clothing" && "Roupas" || product.prodType === "shoes" && "Calçados" || product.prodType === "pet" && "Itens de Pet"}</td>
               <td className="border px-4 py-2">{product.prodName}</td>
               <td className="border px-4 py-2">{product.prodDescription}</td>
-              <td className="border px-4 py-2">{product.prodGender}</td>
+              <td className="border px-4 py-2">{product.prodGender && product.prodGender === "male" && "Masculino" || product.prodGender === "female" && "Feminino" || product.prodGender === "none" && "Nenhum ou N/A"}</td>
               <td className="border px-4 py-2">{product.prodBrand}</td>
-              <td className="border px-4 py-2">{product.quality}</td>
-              <td className="border px-4 py-2">{product.price}</td>
-              <td className="border px-4 py-2">{product.postDate}</td>
-              <td className="border px-4 py-2">{product._v}</td>
+              <td className="border px-4 py-2">{product.quality && product.quality === "new" && "Novo" || product.quality === "used" && "Usado" || product.quality === "damaged" && "Usado, com detalhes"}</td>
+              <td className="border px-4 py-2">{priceFormatter.format(product.price || 0)}</td>
+              <td className="border px-4 py-2">{product.postDate ? new Date(product.postDate).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }) : ''}</td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
   );
-};
+}
 
-export default ProductTable;

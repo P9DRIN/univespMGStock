@@ -1,5 +1,5 @@
 // import PostForm from "./components/PostForm";
-import ProductTable from "./components/ProductTable";
+import { ProductTable } from "./components/ProductTable";
 
 const App: React.FC = () => {
   return (
