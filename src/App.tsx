@@ -1,11 +1,19 @@
 // import PostForm from "./components/PostForm";
 import { ProductTable } from "./components/ProductTable";
+import { AuthProvider } from "./contexts/AuthContext";
+import Login from "./components/Login";
 
 const App: React.FC = () => {
   return (
-    <div>
-      <ProductTable />
-    </div>
+    <AuthProvider>
+      <div>
+        <Login />
+        <ProductTable />
+      </div>
+    </AuthProvider>
+    
+      
+  
   );
 };
 
