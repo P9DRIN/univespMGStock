@@ -13,7 +13,7 @@ const loginFormSchema = z.object({
 type loginFormInput = z.infer<typeof loginFormSchema>
 
 const Login: React.FC = () => {
-  const { loginAccount, setLoading } = useAuth();
+  const { loginAccount } = useAuth();
 
   const {
     register,
