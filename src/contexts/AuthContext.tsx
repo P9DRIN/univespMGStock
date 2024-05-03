@@ -1,7 +1,8 @@
 import { LoginProps } from '@/@types/login';
 import { api } from '@/lib/axios';
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import Cookies from 'js-cookie'
+import { useNavigate } from 'react-router-dom';
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -18,14 +19,18 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate()
 
   async function loginAccount(data: LoginProps) { 
 
     const { username, password } = data;
    
     const searchAcc = await api.get(`/acc/${username}`)
+    console.log(searchAcc.data.account)
+    const filter = searchAcc.data.account.filter((acc: LoginProps) => acc.username === username)
+
+    // https://api-univesp-mgs-tock.vercel.app
 
     if(searchAcc.data.account.length == 1){
       try{
@@ -33,8 +38,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               method: "POST",
               headers: {
                   "Content-Type": "application/json"
+
               },
               body: JSON.stringify({
+                  _id: filter._id,
                   username,
                   password,
               })
@@ -43,17 +50,30 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           const token = data.token
           api.defaults.headers.Authorization = `Bearer ${token}`
           Cookies.set('MGStockToken', token, { expires: 1 })
+          navigate("/")
+          setLoading(false)
           
 
         }catch(err){
           console.log(err)
         }
     }
+
   }
 
+  const isAuthenticated = !!Cookies.get('MGStockToken');
+
+  useEffect(() => {
+    if (Cookies.get('MGStockToken')) {
+      api.defaults.headers.Authorization = `Bearer ${Cookies.get('MGStockToken')}`
+    }
+    setLoading(false)
+  }, [])
+
   const logout = () => {
-    //logica para logout
-    setIsAuthenticated(false);
+    Cookies.remove('MGStockToken')
+    setLoading(true)
+    navigate("/login")
   };
 
   return (

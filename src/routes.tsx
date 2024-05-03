@@ -19,7 +19,11 @@ const PrivateRoute = ({children}: RouterProps) => {
     if(loading){
         return(
             <>
-            <span>Carregando...</span>
+            <div className='w-screen h-screen flex items-center justify-center'>
+                <div className='bg-blue-50 rounded-full'>
+                    <div className='animate-spin rounded-full h-32 w-32 border-b-2 border-blue-800 '/>
+                </div>
+            </div>
             </>
         )
     }
@@ -27,7 +31,6 @@ const PrivateRoute = ({children}: RouterProps) => {
         return <Navigate to="/login" />
     }
     return children
-
 
 }
 
