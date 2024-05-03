@@ -16,7 +16,6 @@ const PrivateRoute = ({children}: RouterProps) => {
 
     const { loading } = useAuth()
    
-
     if(loading){
         return(
             <>
@@ -36,8 +35,7 @@ export function RoutesPage(){
     return(
     <Fragment>
         <Routes>
-           <Route path="/home" element={<PrivateRoute><ProductTable/></PrivateRoute>}/>
-           {/* <Route path="/home" element={<ProductTable/>}/> */}
+           <Route path="/" element={<PrivateRoute><ProductTable/></PrivateRoute>}/>
             <Route path="/login" element={<Login/>}/>
         </Routes>
     </Fragment>

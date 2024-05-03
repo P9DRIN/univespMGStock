@@ -1,25 +1,32 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { Link } from 'react-router-dom';
+import * as z from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+
+const loginFormSchema = z.object({
+  username: z.string().min(6, "O usuário tem no mínimo 6 digitos"),
+  password: z.string().min(5, "A senha tem no mínimo 5 digitos"),
+
+})
+
+type loginFormInput = z.infer<typeof loginFormSchema>
 
 const Login: React.FC = () => {
-  const { login, setLoading } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const { loginAccount, setLoading } = useAuth();
 
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors }
+} = useForm<loginFormInput>({
+    resolver: zodResolver(loginFormSchema)
+  })
 
-
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    //
-
-    if (email === 'user@example.com' && password === 'password') {
-      login();
-    } else {
-      setError('Invalid email or password');
-    }
-  };
+  async function handleLogin(data: loginFormInput) {
+    const { username, password } = data;
+    await loginAccount({ username, password });
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -27,51 +34,41 @@ const Login: React.FC = () => {
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Entrar no sistema</h2>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleLogin}>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit(handleLogin)}>
           <input type="hidden" name="remember" defaultValue="true" />
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
               <label htmlFor="email-address" className="sr-only">Email address</label>
               <input
-                id="email-address"
-                name="email"
-                type="email"
-                autoComplete="email"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
+                {...register('username')}
               />
+              {errors.username && <p>{errors.username.message}</p>}
             </div>
             <div>
               <label htmlFor="password" className="sr-only">Password</label>
               <input
-                id="password"
-                name="password"
                 type="password"
-                autoComplete="current-password"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Senha"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
+                {...register('password')}
               />
+            {errors.password && <p>{errors.password.message}</p>}
             </div>
           </div>
 
-          {error && <p className="text-red-500 text-sm">{error}</p>}
 
           <div>
-            <Link to="/home">
             <button
-              onClick={() => {setLoading(false)}}
-              type="button"
+              disabled={isSubmitting}
+              type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Sign in
             </button>
-            </Link>
 
           </div>
         </form>
