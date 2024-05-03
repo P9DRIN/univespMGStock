@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { Link } from 'react-router-dom';
 
 const Login: React.FC = () => {
-  const { login } = useAuth();
+  const { login, setLoading } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,12 +63,16 @@ const Login: React.FC = () => {
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
           <div>
+            <Link to="/home">
             <button
-              type="submit"
+              onClick={() => {setLoading(false)}}
+              type="button"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Sign in
             </button>
+            </Link>
+
           </div>
         </form>
       </div>

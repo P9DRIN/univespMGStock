@@ -16,7 +16,8 @@ export function ProductsProvider( {children}: {children: ReactNode}){
 
   const [products, setProducts] = useState<Product[]>([]);
 
-  const apiUrl = `https://api-univesp-mg-stock.vercel.app/products`
+  // const apiUrl = `https://api-univesp-mg-stock.vercel.app`
+  const apiUrl = `http://localhost:3333/products`
 
   useEffect(() => {
     // Buscar dados da API

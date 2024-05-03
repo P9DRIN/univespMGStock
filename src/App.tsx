@@ -2,13 +2,13 @@
 import { ProductTable } from "./components/ProductTable";
 import { AuthProvider } from "./contexts/AuthContext";
 import Login from "./components/Login";
+import { RoutesPage } from "./routes";
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
   return (
     <AuthProvider>
       <div>
-        <Login />
-        <ProductTable />
+        <RoutesPage />
       </div>
     </AuthProvider>
     
@@ -17,4 +17,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+
