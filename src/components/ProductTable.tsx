@@ -99,7 +99,7 @@ export function ProductTable(){
                return (dateB?.getTime() ?? 0) - (dateA?.getTime() ?? 0);
              }).map((product) => (
                <tr key={product._id} className="bg-gray-100">
-                 <td className="border px-4 py-2">{product._id}</td>
+                 <td className="border px-4 py-2">{product?._id}</td>
                  <td className="border px-4 py-2">{product.prodType && product.prodType === "clothing" && "Roupas" || product.prodType === "shoes" && "Calçados" || product.prodType === "pet" && "Itens de Pet"}</td>
                  <td className="border px-4 py-2">{product.prodName}</td>
                  <td className="border px-4 py-2">{product.prodDescription}</td>
