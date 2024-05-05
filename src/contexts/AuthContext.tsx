@@ -27,11 +27,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const { username, password } = data;
    
     const searchAcc = await api.get(`/acc/${username}`)
-    console.log(searchAcc.data.account)
     const filter = searchAcc.data.account.filter((acc: LoginProps) => acc.username === username)
-
-    // https://api-univesp-mgs-tock.vercel.app
-
+    
     if(searchAcc.data.account.length == 1){
       try{
           const response = await fetch('https://api-univesp-mgs-tock.vercel.app/sessions', {

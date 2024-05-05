@@ -7,6 +7,7 @@ interface ProductContextType{
     products: Product[];
     setProducts: (products: Product[]) => void;
     CreateProduct: (data: Product) => void;
+    fetchData: () => void;
    
 }
 
@@ -19,26 +20,23 @@ export function ProductsProvider( {children}: {children: ReactNode}){
 
   const apiUrl = `https://api-univesp-mgs-tock.vercel.app/products`
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`${apiUrl}`);
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data)
-          setProducts(data?.products);
-        } else {
-          console.error('Falha ao buscar dados');
-        }
-      } catch (error) {
-        console.error('Erro ao buscar dados:', error);
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`${apiUrl}`);
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data)
+        setProducts(data?.products);
+      } else {
+        console.error('Falha ao buscar dados');
       }
-    };
+    } catch (error) {
+      console.error('Erro ao buscar dados:', error);
+    }
+  };
+  useEffect(() => {
 
     fetchData();
-
-    console.log(products)
-
   }, []);
     
   
@@ -63,7 +61,7 @@ export function ProductsProvider( {children}: {children: ReactNode}){
   }
 
     return (
-        <ProductsContext.Provider value={{ products, setProducts, CreateProduct}}>
+        <ProductsContext.Provider value={{ products, setProducts, CreateProduct, fetchData}}>
             {children}
         </ProductsContext.Provider>
     )

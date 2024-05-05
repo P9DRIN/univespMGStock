@@ -34,7 +34,7 @@ const customStyles = {
  
 export function PostForm()  {
 
-  const { CreateProduct } = useContext(ProductsContext)
+  const { CreateProduct, fetchData } = useContext(ProductsContext)
 
   const {
     control,
@@ -67,6 +67,7 @@ export function PostForm()  {
 
   // Function to handle form submission
   async function handleCreateProduct(data: NewProductInput) {
+
     const { prodType, prodName, prodDescription, prodGender, prodBrand, quality, price } = data
       CreateProduct({
         prodType: prodType,
@@ -81,6 +82,7 @@ export function PostForm()  {
 
       reset()
       setModalIsOpen(false)
+      fetchData()
   }
 
   return (
