@@ -141,11 +141,15 @@ const DatabaseSummary: React.FC<Props> = ({ onClose }) => {
         >
           Calculate Sum
         </button>
-        <p className="mt-4">Subtotal de vendas: {sum}</p>
-        <p className="mt-4">Subtotal de vendas: {sumPix}</p>
-        <p className="mt-4">Subtotal de vendas: {sumDebito}</p>
-        <p className="mt-4">Subtotal de vendas: {sumCredito}</p>
-        <p className="mt-4">Subtotal de vendas: {sumDinheiro}</p>
+        <p className="mt-4">Subtotal de vendas: <b> R$ {sum}</b></p>
+        <p className="mt-4">Subtotal de vendas Pix: <b>R$ {sumPix}</b></p>
+        <p className="mt-4">Subtotal de vendas Débito: <b>R$ {sumDebito}</b></p>
+        <p className="mt-4">Subtotal de vendas Crédito: <b>R$ {sumCredito}</b></p>
+        <p className="mt-4">Subtotal de vendas Dinheiro: <b>R$ {sumDinheiro}</b></p>
+        <p className="mt-4">Despesas: <b>R$ </b></p>
+        <p className="mt-4">Total líquido: <b>R$ </b></p>
+        <p className="mt-4">Quantidade de itens vendidos :<b></b></p>
+        
       </div>
     </div>
   );
