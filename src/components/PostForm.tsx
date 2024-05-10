@@ -1,7 +1,7 @@
-import  { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import Modal from "react-modal";
-import { Controller, useForm } from 'react-hook-form'
-import * as z from 'zod'
+import { Controller, useForm } from "react-hook-form";
+import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ProductsContext } from "@/contexts/ProductsContext";
 
@@ -20,21 +20,20 @@ const customStyles = {
   },
 };
 
-  const newProductSchema = z.object({
-    prodType: z.enum(["sold", "donation", "bought"]) ,
-    prodName: z.string(),
-    prodDescription: z.string(),
-    prodGender: z.enum(["male", "female", "none"]),
-    prodBrand: z.string(),
-    quality: z.enum(["new", "used", "damaged"]),
-    price: z.string(),
-  });
+const newProductSchema = z.object({
+  prodType: z.enum(["sold", "donation", "bought"]),
+  prodName: z.string(),
+  prodDescription: z.string(),
+  prodGender: z.enum(["pix", "debit", "money", "credit", "none"]),
+  prodBrand: z.string(),
+  quality: z.enum(["new", "used", "damaged"]),
+  price: z.string(),
+});
 
-  type NewProductInput = z.infer<typeof newProductSchema>;
- 
-export function PostForm()  {
+type NewProductInput = z.infer<typeof newProductSchema>;
 
-  const { CreateProduct, fetchData } = useContext(ProductsContext)
+export function PostForm() {
+  const { CreateProduct, fetchData } = useContext(ProductsContext);
 
   const {
     control,
@@ -42,24 +41,25 @@ export function PostForm()  {
     handleSubmit,
     formState: { isSubmitting },
     reset,
-
   } = useForm<NewProductInput>({
     resolver: zodResolver(newProductSchema),
-  })
+  });
   enum ProductType {
     sold = "Venda",
     donation = "Doação",
-    bought =  "Compra"
+    bought = "Compra",
   }
   enum ProductGender {
-    male = "Masculino",
-    female = "Feminino",
-    none = "Nenhum ou N/A"
+    pix = "Pix",
+    debit = "Débito",
+    credit = "Crédito",
+    money = "Dinheiro",
+    none = "Nenhum ou N/A",
   }
   enum ProductQuality {
     new = "Novo",
     used = "Usado",
-    damaged = "Usado, com detalhes"
+    damaged = "Usado, com detalhes",
   }
 
   // State for modal visibility
@@ -67,22 +67,28 @@ export function PostForm()  {
 
   // Function to handle form submission
   async function handleCreateProduct(data: NewProductInput) {
+    const {
+      prodType,
+      prodName,
+      prodDescription,
+      prodGender,
+      prodBrand,
+      quality,
+      price,
+    } = data;
+    CreateProduct({
+      prodType: prodType,
+      prodName: prodName,
+      prodDescription: prodDescription,
+      prodGender: prodGender,
+      prodBrand: prodBrand,
+      quality: quality,
+      price: Number(price),
+    });
 
-    const { prodType, prodName, prodDescription, prodGender, prodBrand, quality, price } = data
-      CreateProduct({
-        prodType: prodType,
-        prodName: prodName,
-        prodDescription: prodDescription,
-        prodGender: prodGender,
-        prodBrand: prodBrand,
-        quality: quality,
-        price: Number(price)
-      
-      })
-
-      reset()
-      setModalIsOpen(false)
-      fetchData()
+    reset();
+    setModalIsOpen(false);
+    fetchData();
   }
 
   return (
@@ -106,57 +112,55 @@ export function PostForm()  {
           >
             X
           </button>
-          <form action="" onSubmit={handleSubmit(handleCreateProduct)} className="space-y-4">
+          <form
+            action=""
+            onSubmit={handleSubmit(handleCreateProduct)}
+            className="space-y-4"
+          >
             <div>
               <label htmlFor="prodType" className="block">
                 Tipo:
               </label>
               <Controller
-
-              control={control}
-              name="prodType"
-              render={({ field }) => (
-              <select {...field} id="prodType" className="border p-2 rounded">
-              <option value="">Select...</option>
-              {Object.entries(ProductType).map(([value, label]) => (
-              <option key={value} value={value}>
-              {label}
-            </option>
-            ))}
-            </select>
-             )}
-            />    
-               
+                control={control}
+                name="prodType"
+                render={({ field }) => (
+                  <select
+                    {...field}
+                    id="prodType"
+                    className="border p-2 rounded"
+                  >
+                    <option value="">Select...</option>
+                    {Object.entries(ProductType).map(([value, label]) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              />
             </div>
             <div>
               <label htmlFor="prodGender" className="block">
                 Meio de pagamento:
               </label>
               <Controller
-              control={control}
-              name="prodGender"
-              render={({ field }) => (
-              <select {...field} id="prodGender" className="border p-2 rounded">
-              <option value="">Select...</option>
-              {Object.entries(ProductGender).map(([value, label]) => (
-              <option key={value} value={value}>
-              {label}
-            </option>
-            ))}
-            </select>
-             )}
-            />  
-            </div>
-            <div>
-              <label htmlFor="prodName" className="block">
-                Nome:{" "}
-              </label>
-              <input
-                required
-                type="text"
-                id="prodName"
-                className="border p-2 rounded"
-                {...register('prodName')}
+                control={control}
+                name="prodGender"
+                render={({ field }) => (
+                  <select
+                    {...field}
+                    id="prodGender"
+                    className="border p-2 rounded"
+                  >
+                    <option value="">Select...</option>
+                    {Object.entries(ProductGender).map(([value, label]) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                )}
               />
             </div>
             <div>
@@ -164,24 +168,46 @@ export function PostForm()  {
                 Descrição:
               </label>
               <input
-              required
+                required
                 type="text"
                 id="prodDescription"
                 className="border p-2 rounded"
-                {...register('prodDescription')}
+                {...register("prodDescription")}
               />
             </div>
-            
             <div>
-              <label htmlFor="prodBrand" className="block">
-                Marca:
+              <label className="block">Preço de venda:</label>
+              <input
+                required
+                minLength={1}
+                type="number"
+                className="border p-2 rounded"
+                {...register("price")}
+              />
+            </div>
+            <div>
+              <label htmlFor="prodName" className="block">
+                Custo:{" "}
               </label>
               <input
-              required
+                required
+                type="text"
+                id="prodName"
+                className="border p-2 rounded"
+                {...register("prodName")}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="prodBrand" className="block">
+                Quantidade:
+              </label>
+              <input
+                required
                 type="text"
                 id="prodBrand"
                 className="border p-2 rounded"
-                {...register('prodBrand')}
+                {...register("prodBrand")}
               />
             </div>
             <div>
@@ -189,32 +215,25 @@ export function PostForm()  {
                 Qualidade:
               </label>
               <Controller
-              control={control}
-              name="quality"
-              render={({ field }) => (
-              <select {...field} id="quality" className="border p-2 rounded">
-              <option value="">Select...</option>
-              {Object.entries(ProductQuality).map(([value, label]) => (
-              <option key={value} value={value}>
-              {label}
-            </option>
-            ))}
-            </select>
-             )}
-            />  
-            </div>
-            <div>
-              <label className="block">
-                Preço:
-              </label>
-              <input
-                required
-                minLength={1}
-                type="number"
-                className="border p-2 rounded"
-                {...register('price')}
+                control={control}
+                name="quality"
+                render={({ field }) => (
+                  <select
+                    {...field}
+                    id="quality"
+                    className="border p-2 rounded"
+                  >
+                    <option value="">Select...</option>
+                    {Object.entries(ProductQuality).map(([value, label]) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                )}
               />
             </div>
+
             <button
               type="submit"
               disabled={isSubmitting}
@@ -228,4 +247,3 @@ export function PostForm()  {
     </>
   );
 }
-
