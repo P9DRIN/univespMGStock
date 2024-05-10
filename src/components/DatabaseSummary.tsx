@@ -31,7 +31,7 @@ const DatabaseSummary: React.FC<Props> = ({ onClose }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get<DataItem[]>(
-          "URL_OF_YOUR_BACKEND/data"
+          "https://api-univesp-mgs-tock.vercel.app/products"
         );
         setData(response.data);
       } catch (error) {

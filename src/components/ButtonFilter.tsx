@@ -10,7 +10,7 @@ const ButtonFilter: React.FC = () => {
 
   return (
     <div className="">
-      <button onClick={togglePopup} className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Report</button>
+      <button onClick={togglePopup} className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">Report</button>
     {showPopup && <DatabaseSummary onClose={togglePopup} />}
     </div>
   );
