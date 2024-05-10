@@ -21,7 +21,7 @@ const customStyles = {
 };
 
   const newProductSchema = z.object({
-    prodType: z.enum(["clothing", "shoes", "pet"]) ,
+    prodType: z.enum(["sold", "donation", "bought"]) ,
     prodName: z.string(),
     prodDescription: z.string(),
     prodGender: z.enum(["male", "female", "none"]),
@@ -47,9 +47,9 @@ export function PostForm()  {
     resolver: zodResolver(newProductSchema),
   })
   enum ProductType {
-    clothing = "Roupas",
-    shoes = "Sapatos",
-    pet =  "Itens de pet"
+    sold = "Venda",
+    donation = "Doação",
+    bought =  "Compra"
   }
   enum ProductGender {
     male = "Masculino",
@@ -129,6 +129,25 @@ export function PostForm()  {
                
             </div>
             <div>
+              <label htmlFor="prodGender" className="block">
+                Meio de pagamento:
+              </label>
+              <Controller
+              control={control}
+              name="prodGender"
+              render={({ field }) => (
+              <select {...field} id="prodGender" className="border p-2 rounded">
+              <option value="">Select...</option>
+              {Object.entries(ProductGender).map(([value, label]) => (
+              <option key={value} value={value}>
+              {label}
+            </option>
+            ))}
+            </select>
+             )}
+            />  
+            </div>
+            <div>
               <label htmlFor="prodName" className="block">
                 Nome:{" "}
               </label>
@@ -152,25 +171,7 @@ export function PostForm()  {
                 {...register('prodDescription')}
               />
             </div>
-            <div>
-              <label htmlFor="prodGender" className="block">
-                Gênero:
-              </label>
-              <Controller
-              control={control}
-              name="prodGender"
-              render={({ field }) => (
-              <select {...field} id="prodGender" className="border p-2 rounded">
-              <option value="">Select...</option>
-              {Object.entries(ProductGender).map(([value, label]) => (
-              <option key={value} value={value}>
-              {label}
-            </option>
-            ))}
-            </select>
-             )}
-            />  
-            </div>
+            
             <div>
               <label htmlFor="prodBrand" className="block">
                 Marca:

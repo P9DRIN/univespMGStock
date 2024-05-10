@@ -116,9 +116,9 @@ const DatabaseSummary: React.FC<Props> = ({ onClose }) => {
         >
           X
         </span>
-        <h2 className="text-2xl font-bold mb-4">Database Summary</h2>
+        <h2 className="text-2xl font-bold mb-4">Resumo:</h2>
         <div className="mb-4">
-          <label className="block mb-1">Start Date:</label>
+          <label className="block mb-1">Data inicial:</label>
           <input
             type="date"
             value={startDate}
@@ -127,7 +127,7 @@ const DatabaseSummary: React.FC<Props> = ({ onClose }) => {
           />
         </div>
         <div className="mb-4">
-          <label className="block mb-1">End Date:</label>
+          <label className="block mb-1">Data final:</label>
           <input
             type="date"
             value={endDate}
@@ -139,7 +139,7 @@ const DatabaseSummary: React.FC<Props> = ({ onClose }) => {
           onClick={calculateSum}
           className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
         >
-          Calculate Sum
+          Calcular
         </button>
         <p className="mt-4">Subtotal de vendas: <b> R$ {sum}</b></p>
         <p className="mt-4">Subtotal de vendas Pix: <b>R$ {sumPix}</b></p>

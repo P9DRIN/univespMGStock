@@ -18,9 +18,8 @@ export function ProductTable(){
   });
 
   const fieldNames = {
-    prodName: 'Nome do produto',
-    prodGender: "Genero do produto",
-    prodBrand: "Marca do produto",
+    prodName: 'Tipo',
+    prodGender: "Meio de pagamento ",
   }
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -84,13 +83,12 @@ export function ProductTable(){
              <tr className="bg-gray-200">
                <th className="border px-4 py-2">ID</th>
                <th className="border px-4 py-2">Tipo</th>
-               <th className="border px-4 py-2">Nome</th>
+               <th className="border px-4 py-2">Meio de Pagamento</th>
                <th className="border px-4 py-2">Descrição</th>
-               <th className="border px-4 py-2">Gênero</th>
-               <th className="border px-4 py-2">Marca</th>
-               <th className="border px-4 py-2">Qualidade</th>
-               <th className="border px-4 py-2">Preço</th>
-               <th className="border px-4 py-2">Data de Postagem</th>
+               <th className="border px-4 py-2">Preço Venda</th>
+               <th className="border px-4 py-2">Custo</th>
+               <th className="border px-4 py-2">Quantidade</th>
+               <th className="border px-4 py-2">Data</th>
              </tr>
            </thead>
                    <tbody>
@@ -102,12 +100,14 @@ export function ProductTable(){
                <tr key={product._id} className="bg-gray-100">
                  <td className="border px-4 py-2">{product?._id}</td>
                  <td className="border px-4 py-2">{product.prodType && product.prodType === "clothing" && "Roupas" || product.prodType === "shoes" && "Calçados" || product.prodType === "pet" && "Itens de Pet"}</td>
-                 <td className="border px-4 py-2">{product.prodName}</td>
-                 <td className="border px-4 py-2">{product.prodDescription}</td>
+                 {/* Alterar para meio de pagamento */}
                  <td className="border px-4 py-2">{product.prodGender && product.prodGender === "male" && "Masculino" || product.prodGender === "female" && "Feminino" || product.prodGender === "none" && "Nenhum ou N/A"}</td>
-                 <td className="border px-4 py-2">{product.prodBrand}</td>
-                 <td className="border px-4 py-2">{product.quality && product.quality === "new" && "Novo" || product.quality === "used" && "Usado" || product.quality === "damaged" && "Usado, com detalhes"}</td>
+                 <td className="border px-4 py-2">{product.prodDescription}</td>
                  <td className="border px-4 py-2">{priceFormatter.format(product.price || 0)}</td>
+                 {/* adicionar valor para compra abaixo */}
+                 <td className="border px-4 py-2">{priceFormatter.format(product.price || 0)}</td> 
+                 {/* Alterar de Name para qtde abaixo */}
+                 <td className="border px-4 py-2">{product.prodName}</td>
                  <td className="border px-4 py-2">{product.postDate ? new Date(product.postDate).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }) : ''}</td>
                </tr>
              ))}
