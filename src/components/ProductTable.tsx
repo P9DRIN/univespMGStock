@@ -4,7 +4,7 @@ import { ProductsContext } from '@/contexts/ProductsContext'
 import { Product } from '@/@types/product';
 import { priceFormatter } from '@/utils/priceFormatter';
 import { useAuth } from '@/contexts/AuthContext';
-
+import ButtonFilter from './ButtonFilter';
 
 export function ProductTable(){
   const { isAuthenticated } = useAuth();
@@ -76,6 +76,7 @@ export function ProductTable(){
            >
              Filtrar
            </button>
+           <ButtonFilter/>
            <PostForm/>
          </div>
          <table className="table-auto w-full bg-white">
