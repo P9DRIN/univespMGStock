@@ -137,7 +137,7 @@ const DatabaseSummary: React.FC<Props> = ({ onClose }) => {
         </div>
         <button
           onClick={calculateSum}
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+          className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
         >
           Calcular
         </button>
