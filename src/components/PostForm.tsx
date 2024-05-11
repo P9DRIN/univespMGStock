@@ -89,9 +89,9 @@ export function PostForm()  {
     <>
       <button
         onClick={() => setModalIsOpen(true)}
-        className="bg-blue-500 text-white px-4 h-10 py-2 absolute right-12 rounded hover:bg-blue-600"
+        className="bg-blue-500 text-white px-4 h-10 py-2 rounded hover:bg-blue-600 drop-shadow-lg"
       >
-        Novo
+        Novo Produto
       </button>
       <Modal
         ariaHideApp={false}

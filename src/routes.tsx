@@ -5,6 +5,7 @@ import { Fragment } from 'react/jsx-runtime';
 import { ProductTable } from './components/ProductTable';
 import Login from './components/Login';
 import { useAuth } from './contexts/AuthContext';
+import { Dashboard } from './pages/dashboard';
 
 interface RouterProps{
     children: React.ReactNode;
@@ -39,6 +40,7 @@ export function RoutesPage(){
     <Fragment>
         <Routes>
            <Route path="/" element={<PrivateRoute><ProductTable/></PrivateRoute>}/>
+           <Route path="/dashboard" element={<PrivateRoute><Dashboard/></PrivateRoute>}/>
             <Route path="/login" element={<Login/>}/>
         </Routes>
     </Fragment>

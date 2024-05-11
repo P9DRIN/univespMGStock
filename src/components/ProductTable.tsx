@@ -4,6 +4,7 @@ import { ProductsContext } from '@/contexts/ProductsContext'
 import { Product } from '@/@types/product';
 import { priceFormatter } from '@/utils/priceFormatter';
 import { useAuth } from '@/contexts/AuthContext';
+import { Link } from 'react-router-dom';
 
 
 export function ProductTable(){
@@ -36,10 +37,6 @@ export function ProductTable(){
     setFilterValues({ ...filterValues, [filterField]: value });
   };
 
-  const handleFilterSubmit = () => {
-    // Realizar a filtragem aqui
-    console.log('Filtragem realizada:', filterValues);
-  };
 
   const filteredProducts = products.filter((product) =>
     Object.entries(filterValues).every(([key, value]) =>
@@ -52,11 +49,13 @@ export function ProductTable(){
       {isAuthenticated ? (
          <div className="rounded-lg overflow-hidden shadow-lg">
          <h2 className="text-lg font-semibold bg-gray-200 p-4">Tabela de Produtos</h2>
-         <div className="flex flex-wrap mb-4 p-4 bg-gray-100 space-y-4">
+
+          <div className='w-full flex bg-gray-100 justify-between '>
+         <div className="flex mb-4 p-4  w-full ">
            <select
              value={filterField}
              onChange={handleFilterChange}
-             className="border rounded px-2 h-10 m-4 py-1"
+             className="border rounded px-2 h-10 m-4 py-1 drop-shadow"
            >
              {Object.keys(fieldNames).map((field) => (
              <option key={field} value={field}>
@@ -68,17 +67,21 @@ export function ProductTable(){
              type="text"
              value={filterValue}
              onChange={handleFilterValueChange}
-             className="border rounded px-2 h-10 m-4 py-1"
+             className="border rounded px-2 h-10 m-4 py-1 drop-shadow-lg"
            />
-           <button
-             onClick={handleFilterSubmit}
-             className="bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 m-4 py-2 px-4 rounded"
-           >
-             Filtrar
-           </button>
+           
+           </div>
+           <div className='w-full flex gap-4 justify-end items-center mb-4 p-4 mr-4 '>
            <PostForm/>
-         </div>
-         <table className="table-auto w-full bg-white">
+           <Link to={'/dashboard'} > 
+           <button
+            className="bg-blue-500 text-white px-4 h-10 py-2 rounded hover:bg-blue-600 drop-shadow-lg">
+            Gerar Relatório
+            </button>
+              </Link>
+           </div>
+           </div>
+         <table className="table-auto w-full bg-white ">
            <thead>
              <tr className="bg-gray-200">
                <th className="border px-4 py-2">ID</th>
