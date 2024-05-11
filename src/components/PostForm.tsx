@@ -75,14 +75,23 @@ export function PostForm() {
       price,
     } = data;
 
+   transactionType === "sold" &&  CreateProduct({
+    transactionType: transactionType,
+    saleType: saleType,
+    prodDescription: prodDescription,
+    price: Number(price),
+    quantity: Number(quantity),
+    quality: quality,
+  });
+  transactionType === "donation" || "bought" &&   
     CreateProduct({
-      transactionType: transactionType,
-      saleType: saleType,
-      prodDescription: prodDescription,
-      price: Number(price),
-      quantity: Number(quantity),
-      quality: quality,
-    });
+    transactionType: transactionType,
+    saleType: saleType,
+    prodDescription: prodDescription,
+    price: 0,
+    quantity: Number(quantity),
+    quality: quality,
+  });
 
     reset();
     setModalIsOpen(false);
