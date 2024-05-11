@@ -25,7 +25,6 @@ const newProductSchema = z.object({
   saleType: z.enum(["pix", "debit", "money", "credit", "none"]),
   prodDescription: z.string(),
   price: z.string(),
-  charge: z.string(),
   quantity: z.string(),
   quality: z.enum(["new", "used", "damaged"]),
 });
@@ -69,7 +68,6 @@ export function PostForm() {
   async function handleCreateProduct(data: NewProductInput) {
     const {
       transactionType,
-      charge,
       prodDescription,
       saleType,
       quantity,
@@ -82,7 +80,6 @@ export function PostForm() {
       saleType: saleType,
       prodDescription: prodDescription,
       price: Number(price),
-      charge: Number(charge),
       quantity: Number(quantity),
       quality: quality,
     });
@@ -183,18 +180,6 @@ export function PostForm() {
                 type="text"
                 className="border p-2 rounded"
                 {...register("price")}
-              />
-            </div>
-            <div>
-              <label htmlFor="charge" className="block">
-                Custo:{" "}
-              </label>
-              <input
-                required
-                type="number"
-                id="charge"
-                className="border p-2 rounded"
-                {...register("charge")}
               />
             </div>
 
