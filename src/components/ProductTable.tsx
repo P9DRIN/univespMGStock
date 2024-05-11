@@ -102,7 +102,7 @@ export function ProductTable(){
                <tr key={product._id} className="bg-gray-100">
                  <td className="border px-4 py-2">{product?._id}</td>
                  <td className="border px-4 py-2">{product.transactionType && product.transactionType === "sold" && "Vendido" || product.transactionType === "Donation" && "Doação" || product.transactionType === "bought" && "Compra"}</td>
-                 <td className="border px-4 py-2">{product.saleType && product.saleType === "pix" && "Pix" || product.saleType === "debit" && "Debito" || product.saleType === "credit" && "Credito" || product.saleType === "none" && "Nenhum ou N/A"}</td>
+                 <td className="border px-4 py-2">{product.saleType && product.saleType === "pix" && "Pix" || product.saleType === "money" && "Dinheiro" || product.saleType === "debit" && "Debito" || product.saleType === "credit" && "Credito" || product.saleType === "none" && "Nenhum ou N/A"}</td>
                  <td className="border px-4 py-2">{product.prodDescription}</td>
                  <td className="border px-4 py-2">{priceFormatter.format(product.price || 0)}</td>
                  <td className="border px-4 py-2">{priceFormatter.format(product.charge || 0)}</td> 
