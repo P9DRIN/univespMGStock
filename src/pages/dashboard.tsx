@@ -2,8 +2,10 @@ import { DetailedRelatory } from "@/components/detailed-relatory"
 import { GeralRelatory } from "@/components/geral-relatory"
 import { ProductsContext } from "@/contexts/ProductsContext"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { CaretLeft } from "phosphor-react"
 import { useContext, useState } from "react"
 import { useForm } from "react-hook-form"
+import { Link } from "react-router-dom"
 import * as z from 'zod'
 
 const generateRelatorySchema = z.object({
@@ -126,9 +128,15 @@ export function Dashboard(){
     return(
         <>
         <div className="bg-neutral-100 h-full w-full">
-        <h2 className="text-lg font-semibold bg-gray-200 p-4 drop-shadow">Relatório</h2>
+        <div className="text-lg font-semibold bg-gray-200 p-4 drop-shadow w-full flex gap-2 items-center">
+        <Link to="/">
+                <CaretLeft size={32} className="hover:text-blue-500"/>
+        </Link>
+            <span>Relatório</span>
+        </div>
         <div className="w-full bg-gray-100 p-4 ">
             <form className="flex gap-4 w-full justify-between items-center" action="" onSubmit={handleSubmit(handleGenerateRelatory)}>
+
                 <span className="text-md text-neutral-800 font-medium">Vendo agora de: 
                 <b className="text-blue-500 font-semibold"> {detailedProduct?.startDate && detailedProduct?.endDate ? `${formatDate(detailedProduct.startDate)} até ${formatDate(detailedProduct.endDate)}` : 'Relatório Geral'}
                     </b> <span className="text-neutral-400 font-light">{isDetailedRelatory ? '' : '(sem despesas)'}</span></span>
