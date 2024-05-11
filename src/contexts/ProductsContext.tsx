@@ -41,17 +41,17 @@ export function ProductsProvider( {children}: {children: ReactNode}){
     
   
   async function CreateProduct(data: Product) {
-    const { prodType, prodName, prodDescription, prodGender, prodBrand, quality, price } = data
+    const { transactionType, saleType, prodDescription, price, charge, quantity, quality } = data
 
     await api.post('/products', 
     {
-      prodType: prodType,
-      prodName: prodName,
-      prodDescription: prodDescription,
-      prodGender: prodGender,
-      prodBrand: prodBrand,
-      quality: quality,
-      price: price
+      transactionType,
+      charge,
+      prodDescription,
+      saleType,
+      quantity,
+      quality,
+      price,
     }
     )
     const newProduct = data

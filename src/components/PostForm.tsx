@@ -21,13 +21,13 @@ const customStyles = {
 };
 
 const newProductSchema = z.object({
-  prodType: z.enum(["sold", "donation", "bought"]),
-  prodName: z.string(),
+  transactionType: z.enum(["sold", "donation", "bought"]),
+  saleType: z.enum(["pix", "debit", "money", "credit", "none"]),
   prodDescription: z.string(),
-  prodGender: z.enum(["pix", "debit", "money", "credit", "none"]),
-  prodBrand: z.string(),
-  quality: z.enum(["new", "used", "damaged"]),
   price: z.string(),
+  charge: z.string(),
+  quantity: z.string(),
+  quality: z.enum(["new", "used", "damaged"]),
 });
 
 type NewProductInput = z.infer<typeof newProductSchema>;
@@ -49,7 +49,7 @@ export function PostForm() {
     donation = "Doação",
     bought = "Compra",
   }
-  enum ProductGender {
+  enum saleType {
     pix = "Pix",
     debit = "Débito",
     credit = "Crédito",
@@ -68,22 +68,23 @@ export function PostForm() {
   // Function to handle form submission
   async function handleCreateProduct(data: NewProductInput) {
     const {
-      prodType,
-      prodName,
+      transactionType,
+      charge,
       prodDescription,
-      prodGender,
-      prodBrand,
+      saleType,
+      quantity,
       quality,
       price,
     } = data;
+
     CreateProduct({
-      prodType: prodType,
-      prodName: prodName,
+      transactionType: transactionType,
+      saleType: saleType,
       prodDescription: prodDescription,
-      prodGender: prodGender,
-      prodBrand: prodBrand,
-      quality: quality,
       price: Number(price),
+      charge: Number(charge),
+      quantity: Number(quantity),
+      quality: quality,
     });
 
     reset();
@@ -118,16 +119,16 @@ export function PostForm() {
             className="space-y-4"
           >
             <div>
-              <label htmlFor="prodType" className="block">
-                Tipo:
+              <label htmlFor="transactionType" className="block">
+                Tipo de Transação:
               </label>
               <Controller
                 control={control}
-                name="prodType"
+                name="transactionType"
                 render={({ field }) => (
                   <select
                     {...field}
-                    id="prodType"
+                    id="transactionType"
                     className="border p-2 rounded"
                   >
                     <option value="">Select...</option>
@@ -141,12 +142,12 @@ export function PostForm() {
               />
             </div>
             <div>
-              <label htmlFor="prodGender" className="block">
+              <label htmlFor="saleType" className="block">
                 Meio de pagamento:
               </label>
               <Controller
                 control={control}
-                name="prodGender"
+                name="saleType"
                 render={({ field }) => (
                   <select
                     {...field}
@@ -154,7 +155,7 @@ export function PostForm() {
                     className="border p-2 rounded"
                   >
                     <option value="">Select...</option>
-                    {Object.entries(ProductGender).map(([value, label]) => (
+                    {Object.entries(saleType).map(([value, label]) => (
                       <option key={value} value={value}>
                         {label}
                       </option>
@@ -179,35 +180,34 @@ export function PostForm() {
               <label className="block">Preço de venda:</label>
               <input
                 required
-                minLength={1}
-                type="number"
+                type="text"
                 className="border p-2 rounded"
                 {...register("price")}
               />
             </div>
             <div>
-              <label htmlFor="prodName" className="block">
+              <label htmlFor="charge" className="block">
                 Custo:{" "}
               </label>
               <input
                 required
-                type="text"
-                id="prodName"
+                type="number"
+                id="charge"
                 className="border p-2 rounded"
-                {...register("prodName")}
+                {...register("charge")}
               />
             </div>
 
             <div>
-              <label htmlFor="prodBrand" className="block">
+              <label htmlFor="quantity" className="block">
                 Quantidade:
               </label>
               <input
                 required
-                type="text"
-                id="prodBrand"
+                type="number"
+                id="quantity"
                 className="border p-2 rounded"
-                {...register("prodBrand")}
+                {...register("quantity")}
               />
             </div>
             <div>

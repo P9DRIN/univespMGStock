@@ -1,11 +1,11 @@
 export interface Product {
     _id?: string;
-    prodType?: string;
-    prodName?: string;
+    transactionType?: string;
+    saleType?: string;
     prodDescription?: string;
-    prodGender?: string;
-    prodBrand?: string;
-    quality?: string;
     price?: number;
+    charge?: number;
+    quantity?: number;
+    quality?: string;
     postDate?: string;
   }
