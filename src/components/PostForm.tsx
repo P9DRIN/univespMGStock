@@ -78,15 +78,21 @@ export function PostForm() {
       setError('O preço deve ser maior do que zero!')
     }
 
-   transactionType === "sold" && Number(price) > 0 && CreateProduct({
-    transactionType: transactionType,
-    saleType: saleType,
-    prodDescription: prodDescription,
-    quantity: Number(quantity),
-    price: Number(price) * Number(quantity),
-    quality: quality,
-  });
-  transactionType === "donation" || "bought" &&   
+   if(transactionType === "sold" && Number(price) > 0 ){
+    CreateProduct({
+      transactionType: transactionType,
+      saleType: saleType,
+      prodDescription: prodDescription,
+      quantity: Number(quantity),
+      price: Number(price) * Number(quantity),
+      quality: quality,
+    });
+    reset()
+    setModalIsOpen(false);
+   }
+
+
+  if(transactionType === "donation" ||  transactionType === "bought") {
     CreateProduct({
     transactionType: transactionType,
     saleType: saleType,
@@ -94,10 +100,11 @@ export function PostForm() {
     price: 0,
     quantity: Number(quantity),
     quality: quality,
+    
   });
-
-    reset();
-    setModalIsOpen(false);
+  reset()
+  setModalIsOpen(false);
+} 
     fetchData();
   }
 
