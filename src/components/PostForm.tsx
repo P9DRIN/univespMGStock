@@ -61,10 +61,9 @@ export function PostForm() {
     damaged = "Usado, com detalhes",
   }
 
-  // State for modal visibility
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [error, setError] = useState('');
 
-  // Function to handle form submission
   async function handleCreateProduct(data: NewProductInput) {
     const {
       transactionType,
@@ -75,7 +74,11 @@ export function PostForm() {
       price,
     } = data;
 
-   transactionType === "sold" &&  CreateProduct({
+    if(Number(price) <= 0){
+      setError('O preço deve ser maior do que zero!')
+    }
+
+   transactionType === "sold" && Number(price) > 0 && CreateProduct({
     transactionType: transactionType,
     saleType: saleType,
     prodDescription: prodDescription,
@@ -227,7 +230,7 @@ export function PostForm() {
                 )}
               />
             </div>
-
+            {error && <p className="text-red-500 text-sm">{error}</p>}
             <button
               type="submit"
               disabled={isSubmitting}
