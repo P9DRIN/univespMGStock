@@ -79,8 +79,8 @@ export function PostForm() {
     transactionType: transactionType,
     saleType: saleType,
     prodDescription: prodDescription,
-    price: Number(price),
     quantity: Number(quantity),
+    price: Number(price) * Number(quantity),
     quality: quality,
   });
   transactionType === "donation" || "bought" &&   
@@ -183,7 +183,7 @@ export function PostForm() {
               />
             </div>
             <div>
-              <label className="block">Preço de venda:</label>
+              <label className="block">Preço unitário da venda :</label>
               <input
                 required
                 type="text"
