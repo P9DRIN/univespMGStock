@@ -89,6 +89,7 @@ export function PostForm() {
     });
     reset()
     setModalIsOpen(false);
+    fetchData();
    }
 
 
@@ -104,8 +105,9 @@ export function PostForm() {
   });
   reset()
   setModalIsOpen(false);
+  fetchData();
 } 
-    fetchData();
+    
   }
 
   return (
